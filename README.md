@@ -1,0 +1,1 @@
+php artisan code:models --table=carts && php artisan generate:factory Cart --force
