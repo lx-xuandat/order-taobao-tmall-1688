@@ -35,11 +35,14 @@ if (! function_exists('clean_link_item_taobao')) {
 
             $filteredParams = array_filter(['id' => $id, 'skuId' => $skuId]);
             $filteredQuery = http_build_query($filteredParams);
+            $queryItem = http_build_query(array_filter(['id' => $id]));
 
-            $new =  $scheme . '://' . $host . $path . '?' . $filteredQuery;
+            $skuLink =  $scheme . '://' . $host . $path . '?' . $filteredQuery;
+            $itemLink =  $scheme . '://' . $host . $path . '?' . $queryItem;
 
             return [
-                'item_link' => $new,
+                'item_link' => $itemLink,
+                'sku_link' => $skuLink,
                 'item_id' => $id,
                 'sku_id' => $skuId,
             ];

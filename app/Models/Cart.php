@@ -6,7 +6,9 @@
 
 namespace App\Models;
 
+use App\Traits\RelationshipTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,68 +16,93 @@ use Illuminate\Database\Eloquent\Model;
  * Class Cart
  * 
  * @property int $id
- * @property int $product_id
- * @property int $shop_id
  * @property int $customer_id
- * @property string $item_id
- * @property string $sku_id
- * @property int $po_status
- * @property string $sku_name
- * @property int $item_quantity
- * @property float $item_price
- * @property string $item_link
- * @property string $item_title
- * @property string $item_picture
+ * @property int $shop_id
+ * @property float $sub_total
+ * @property int $delivery
+ * @property int $pickup_point
+ * @property float $discount
+ * @property float $shipping_charges
+ * @property float $tax
+ * @property int|null $voucher_id
+ * @property float $money_decorator
+ * @property float $total
+ * @property int $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * 
- * @property Human $customer
- * @property Product $product
- * @property Human $shop
+ * @property Supplier $customer
+ * @property Supplier $shop
+ * @property Voucher|null $voucher
+ * @property Collection|Item[] $items
+ * @property Collection|Package[] $packages
+ * @property Collection|PurchaseOrder[] $purchase_orders
  *
  * @package App\Models
  */
 class Cart extends Model
 {
 	use HasFactory;
+	use RelationshipTrait;
 	protected $table = 'carts';
 
 	protected $casts = [
-		'product_id' => 'int',
-		'shop_id' => 'int',
 		'customer_id' => 'int',
-		'po_status' => 'int',
-		'item_quantity' => 'int',
-		'item_price' => 'float'
+		'shop_id' => 'int',
+		'sub_total' => 'float',
+		'delivery' => 'int',
+		'pickup_point' => 'int',
+		'discount' => 'float',
+		'shipping_charges' => 'float',
+		'tax' => 'float',
+		'voucher_id' => 'int',
+		'money_decorator' => 'float',
+		'total' => 'float',
+		'status' => 'int'
 	];
 
 	protected $fillable = [
-		'product_id',
-		'shop_id',
 		'customer_id',
-		'item_id',
-		'sku_id',
-		'po_status',
-		'sku_name',
-		'item_quantity',
-		'item_price',
-		'item_link',
-		'item_title',
-		'item_picture'
+		'shop_id',
+		'sub_total',
+		'delivery',
+		'pickup_point',
+		'discount',
+		'shipping_charges',
+		'tax',
+		'voucher_id',
+		'money_decorator',
+		'total',
+		'status'
 	];
 
 	public function customer()
 	{
-		return $this->belongsTo(Human::class, 'customer_id');
-	}
-
-	public function product()
-	{
-		return $this->belongsTo(Product::class);
+		return $this->belongsTo(Supplier::class, 'customer_id');
 	}
 
 	public function shop()
 	{
-		return $this->belongsTo(Human::class, 'shop_id');
+		return $this->belongsTo(Supplier::class, 'shop_id');
+	}
+
+	public function voucher()
+	{
+		return $this->belongsTo(Voucher::class);
+	}
+
+	public function items()
+	{
+		return $this->hasMany(Item::class);
+	}
+
+	public function packages()
+	{
+		return $this->hasMany(Package::class);
+	}
+
+	public function purchase_orders()
+	{
+		return $this->hasMany(PurchaseOrder::class);
 	}
 }

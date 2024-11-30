@@ -26,14 +26,14 @@ class AddToCartRequest extends FormRequest
             // 'product.item_id' => ['required', 'string'],
             // 'product.sku_id' => ['required', 'string'],
             // 'product.po_status' => ['required', 'string'],
-            'product.item_title' => ['required', 'string'],
-            'product.item_link' => ['required', 'string'],
-            'product.item_picture' => ['required', 'string'],
-            'product.item_price' => ['required', 'string'],
-            'product.item_quantity' => ['required', 'string'],
-            'product.sku_name' => ['required', 'string'],
-            'shop.shop_link' => ['required', 'string'],
-            'shop.shop_name' => ['required', 'string'],
+            'product.title' => ['required', 'string'],
+            'product.link' => ['required', 'string'],
+            'product.thumbnail' => ['required', 'string'],
+            'product.price' => ['required', 'numeric'],
+            'product.quantity' => ['required', 'numeric'],
+            'product.sku' => ['required', 'string'],
+            'shop.website' => ['required', 'string'],
+            'shop.name' => ['required', 'string'],
         ];
     }
 }

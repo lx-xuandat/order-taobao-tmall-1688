@@ -11,5 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface CartRepository extends RepositoryInterface
 {
-    public function addToCart($search, array $data);
+    public function addItemToCart($uid, array $item, array $cart);
 }

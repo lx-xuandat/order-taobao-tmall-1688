@@ -47,31 +47,26 @@ class CartsController extends Controller
         try {
             $origin = $request->header('Origin');
 
-            if ($origin == 'https://item.taobao.com') {
-                $links = clean_link_item_taobao($request->input('product.item_link'));
-                $unique = [
-                    ...$links,
-                    'customer_id' => auth()->id(),
-                    'po_status' => 0,
+            $webs = ['https://item.taobao.com', 'https://detail.tmall.com'];
+
+            if (in_array($origin, $webs)) {
+                $uid = auth()->id();
+                $item = [
+                    ...$request->input('product'),
+                    ...clean_link_item_taobao($request->input('product.link')),
+                    'customer_id' => $uid,
+                    'status' => OrderStatus::ItemInCart->value,
+                ];
+                $cart = [
+                    ...$request->input('shop'),
+                    'customer_id' => $uid,
+                    'status' => OrderStatus::ItemInCart->value,
                 ];
             } else {
                 throw (new AddToCartException())->WebsiteNotSupport();
             }
 
-            $data = [
-                $unique,
-                [
-                    ...$request->input('shop'),
-                    ...$request->input('product'),
-                    ...$unique,
-                    ...$links,
-                    'origin' => $origin,
-                    'shop_link' => clean_link_shop($request->input('shop.shop_link')),
-                    'shop' => $request->input('shop'),
-                ]
-            ];
-
-            $cart = $this->repository->addToCart(...$data);
+            $cart = $this->repository->addItemToCart($uid, $item, $cart);
 
             $response = [
                 'message' => 'Sản phẩm đã có trong giỏ hàng. Cảm ơn quí khách!!!',

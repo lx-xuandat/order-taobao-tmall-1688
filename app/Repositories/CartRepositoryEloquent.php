@@ -2,11 +2,15 @@
 
 namespace App\Repositories;
 
-use App\Enums\POTracking;
-use App\Enums\UserRole;
+use App\Enums\OrderStatus;
+use App\Enums\UserType;
+use App\Enums\VoucherType;
 use Prettus\Repository\Eloquent\BaseRepository;
 use App\Repositories\CartRepository;
 use App\Models\Cart;
+use App\Models\Item;
+use App\Models\User;
+use SebastianBergmann\Type\VoidType;
 
 /**
  * Class CartRepositoryEloquent.
@@ -16,8 +20,9 @@ use App\Models\Cart;
 class CartRepositoryEloquent extends BaseRepository implements CartRepository
 {
 
-    protected ShopRepository $shop;
+    protected SupplierRepository $shop;
     protected ProductRepository $product;
+    protected ItemRepository $item;
     /**
      * Specify Model class name
      *
@@ -34,83 +39,146 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
     public function boot()
     {
         $this->product = app(ProductRepository::class);
-        $this->shop = app(ShopRepository::class);
+        $this->shop = app(SupplierRepository::class);
+        $this->item = app(ItemRepository::class);
     }
 
-    public function addToCart($unique, array $request): Cart
+    /**
+     * Add Item to Cart
+     */
+    public function addItemToCart($uid, array $_item, array $_shop): Item
     {
         try {
             \DB::beginTransaction();
-            $update = true;
-            $cart = $this->model
-                ->where([
-                    'customer_id' => $unique['customer_id'],
-                    'item_id' => $unique['item_id'],
-                    'sku_id' => $unique['sku_id'],
-                    'po_status' => POTracking::CHUA_GUI_DON->value,
-                ])
-                ->firstOr(function () use ($request, &$update, $unique) {
-                    $update = false;
-                    $model = $this->make([
-                        ...$request,
-                        'customer_id' => $unique['customer_id'],
-                        'item_id' => $unique['item_id'],
-                        'sku_id' => $unique['sku_id'],
-                        'po_status' => POTracking::CHUA_GUI_DON->value,
-                    ]);
 
-                    $shop = $this->shop->model->firstOrCreate(
-                        [
-                            'type' => UserRole::ShopTQ->value,
-                            'website' => clean_link_shop($request['shop']['shop_link']),
-                            'name' => $request['shop']['shop_name']
-                        ],
-                        [
-                            'name' => $request['shop']['shop_name'],
-                            'website' => clean_link_shop($request['shop']['shop_link']),
-                            'type' => UserRole::ShopTQ->value,
-                        ]
-                    );
+            $shop = $this->shop->updateOrCreate(
+                [
+                    'website' => $_shop['website'],
+                    'type' => UserType::ShopTQ->value
+                ],
+                [
+                    'website' => $_shop['website'],
+                    'name' => $_shop['name'],
+                    'email' =>  $_shop['website'],
+                    'address' => 'China',
+                    'phone' => 'undefined'
+                ],
+            );
 
-                    $item = $this->product->model->firstOrCreate(
-                        [
-                            'item_id' => $unique['item_id'],
-                            'china_shop_id' => $shop->id,
-                            'sku_id' => 'null',
-                        ],
-                        [
-                            'item_id' => $unique['item_id'],
-                            'link' => $request['item_link'],
-                            'title' => $request['item_title'],
-                            'picture'  => $request['item_picture'],
-                            'china_shop_id' => $shop->id,
-                            'price' => $request['item_price'],
+            $product = $this->product->updateOrCreate(
+                [
+                    'item_link' => $_item['item_link'],
+                    'shop_id' => $shop->id,
+                ],
+                [
+                    ...$_item,
+                    // 'link' => $_item['item_link'],
+                ]
+            );
 
-                        ]
-                    );
+            $cart = $this->model->updateOrCreate(
+                [
+                    'customer_id' => $uid,
+                    'shop_id' => $shop->id,
+                    'status' => OrderStatus::ItemInCart->value
+                ],
+                [
+                    // 'sub_total',
+                    // 'delivery',
+                    // 'pickup_point',
+                    // 'discount',
+                    // 'shipping_charges',
+                    // 'tax',
+                    // 'voucher_id' => VoucherType::None->value,
+                    // 'status'
+                ]
+            );
 
-                    $model->shop_id = $shop->id;
-                    $model->product_id = $item->id;
-                    $model->item_id = $item->item_id;
-                    $model->sku_id = $unique['sku_id'];
+            $item = $this->item->whereFirstOrMake(
+                [
+                    'shop_id' => $shop->id,
+                    'product_id' => $product->id,
+                    'customer_id' => $uid,
+                    'sku_link' => $_item['sku_link'],
+                    'status' => OrderStatus::ItemInCart->value,
+                ],
+                $_item
+            );
 
-                    $model->save();
-
-                    return $model;
-                });
-
-            if ($update) {
-                $cart->update([
-                    'item_quantity' => $cart->item_quantity + $request['item_quantity'],
-                    'item_price' => $request['item_price'],
-                ]);
+            if ($item->cart_id == null) {
+                $item->cart_id = $cart->id;
+            } else {
+                $item->quantity += $_item['quantity'];
+                $item->price = $_item['price'];
+                $item->sku = $_item['sku'];
             }
+            $item->save();
             \DB::commit();
-            return $cart;
+            return $item;
         } catch (\Exception $e) {
             \DB::rollBack();
-
             throw $e;
         }
+    }
+
+    public function getMyCart($customerId)
+    {
+        $withCartDetail = function ($cart) use ($customerId) {
+            return $cart
+                ->select([
+                    'carts.*',
+                    'products.title as product_title',
+                    'products.link as product_link',
+                    \DB::raw('items.quantity * items.price AS total'),
+                ])
+                ->join('items', 'items.cart_id', '=', 'carts.id')
+                ->join('products', 'products.id', '=', 'items.product_id')
+                ->where('po_status', OrderStatus::ItemInCart->value)
+                // ->where('parent_id', '<>', null)
+                ->where('carts.customer_id', $customerId);
+        };
+
+        $carts = $this
+            ->with(['carts_where_shop' => $withCartDetail])
+            ->whereHas('carts_where_shop', $withCartDetail)
+            ->findWhere(
+                [
+                    'type' => UserType::ShopTQ->value,
+                ],
+                [
+                    'id',
+                    'name as shop',
+                    'website',
+                ]
+            );
+
+        return $carts;
+    }
+
+
+    /**
+     *
+     */
+    public function getFirstOrCreateCart($customerId, array $shop)
+    {
+        $withShop = function ($builder) use ($shop) {
+            return $builder->where('website', $shop['website']);
+        };
+
+        $cart = $this
+            ->with(['shop' => $withShop])
+            ->whereHas('shop', $withShop)
+            ->where([
+                'customer_id' => $customerId,
+            ])
+            ->firstOr(function () use ($shop, $customerId, $withShop) {
+                return $this->model()::factory()->create([
+                    'customer_id' => $customerId,
+                    'shop_id' => $this->shop->firstOrCreateShop($shop),
+                    'voucher_id' => VoucherType::None->value,
+                ]);
+            });
+
+        return $cart;
     }
 }

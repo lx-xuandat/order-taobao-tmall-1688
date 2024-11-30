@@ -32,8 +32,8 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::group(['as' => 'frontend.', 'middleware' => 'auth'], function () {
-    Route::resource('carts', CartsController::class);
+Route::group(['as' => 'fe.', 'middleware' => 'auth'], function () {
+    Route::get('carts', [CartsController::class, 'index'])->name('cart.index');
 });
 
 
