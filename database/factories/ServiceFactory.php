@@ -29,7 +29,7 @@ final class ServiceFactory extends Factory
         return [
             'name' => fake()->name,
             'value' => fake()->word,
-            'created_by' => \App\Models\Human::factory(),
+            'created_by' => \App\Models\Supplier::factory(),
         ];
     }
 }

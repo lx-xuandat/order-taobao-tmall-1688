@@ -1,3 +1,6 @@
+<script>
+    window.services = {!! json_encode($service) !!};
+</script>
 
 <!-- Scroll To Top -->
 <div class="scrollToTop">

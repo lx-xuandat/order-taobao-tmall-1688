@@ -27,12 +27,10 @@ final class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'china_shop_id' => \App\Models\Human::factory(),
-            'item_id' => fake()->word,
-            'sku_id' => fake()->word,
+            'shop_id' => \App\Models\Supplier::factory(),
             'title' => fake()->title,
-            'link' => fake()->url,
-            'picture' => fake()->word,
+            'item_link' => fake()->word,
+            'thumbnail' => fake()->word,
             'price' => fake()->randomFloat(2, 0, 99999999),
         ];
     }

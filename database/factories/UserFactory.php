@@ -29,13 +29,15 @@ final class UserFactory extends Factory
     {
         return [
             'name' => fake()->name,
-            'email' => fake()->optional()->safeEmail,
+            'email' => fake()->safeEmail,
             'type' => fake()->randomNumber(1),
             'website' => fake()->optional()->word,
             'address' => fake()->optional()->address,
             'phone' => fake()->optional()->phoneNumber,
             'email_verified_at' => fake()->optional()->datetime(),
             'password' => bcrypt(fake()->optional()->password),
+            'current_password' => fake()->optional()->word,
+            'password_confirmation' => fake()->optional()->word,
             'active' => fake()->randomNumber(1),
             'remember_token' => Str::random(10),
         ];

@@ -27,18 +27,18 @@ final class CartFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => \App\Models\Product::factory(),
-            'shop_id' => \App\Models\Human::factory(),
-            'customer_id' => \App\Models\Human::factory(),
-            'item_id' => fake()->word,
-            'sku_id' => fake()->word,
-            'po_status' => fake()->randomNumber(1),
-            'sku_name' => fake()->word,
-            'item_quantity' => fake()->randomNumber(),
-            'item_price' => fake()->randomFloat(2, 0, 999999),
-            'item_link' => fake()->word,
-            'item_title' => fake()->word,
-            'item_picture' => fake()->word,
+            'customer_id' => \App\Models\Supplier::factory(),
+            'shop_id' => \App\Models\Supplier::factory(),
+            'sub_total' => fake()->randomFloat(2, 0, 99999999),
+            'delivery' => fake()->randomNumber(),
+            'pickup_point' => fake()->randomNumber(),
+            'discount' => fake()->randomFloat(2, 0, 99999999),
+            'shipping_charges' => fake()->randomFloat(2, 0, 99999999),
+            'tax' => fake()->randomFloat(2, 0, 99999999),
+            'voucher_id' => \App\Models\Voucher::factory(),
+            'money_decorator' => fake()->randomFloat(2, 0, 99999999),
+            'total' => fake()->randomFloat(2, 0, 99999999),
+            'status' => fake()->randomNumber(1),
         ];
     }
 }

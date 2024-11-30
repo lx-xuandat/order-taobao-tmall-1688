@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Exceptions\AddToCartException;
 use App\Http\Requests\AddToCartRequest;
 use App\Repositories\CartRepository;
@@ -30,7 +31,8 @@ class CartsController extends Controller
 
     public function index()
     {
-        $carts = $this->repository->all();
+        $customerId = auth('web')->user()->id;
+        $carts = $this->repository->getMyCart($customerId);
 
         if (request()->wantsJson()) {
 
@@ -39,7 +41,7 @@ class CartsController extends Controller
             ]);
         }
 
-        return view('carts.index', compact('carts'));
+        return view('zynix.cart', compact('carts'));
     }
 
     public function addToCart(AddToCartRequest $request)

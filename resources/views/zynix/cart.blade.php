@@ -34,10 +34,12 @@
                     </div>
                     <div class="btn-list">
                         <button class="btn btn-primary-light btn-wave me-2">
-                            <i class="bx bx-crown align-middle"></i> Plan Upgrade
+                            <i class="bx bx-crown align-middle"></i>
+                            {{ $service['yuan_detail'] }}
                         </button>
                         <button class="btn btn-secondary-light btn-wave me-0">
-                            <i class="ri-upload-cloud-line align-middle"></i> Export Report
+                            <i class="ri-upload-cloud-line align-middle"></i>
+                            Export Report
                         </button>
                     </div>
                 </div>
@@ -46,532 +48,153 @@
                 <!-- Start::row-1 -->
                 <div class="row">
                     <div class="col-xxl-9">
-                        <div class="card custom-card overflow-hidden" id="cart-container-delete">
-                            <div class="card-header">
-                                <div class="card-title">Cart Items</div>
-                            </div>
-                            <div class="card-body p-0">
-                                <div class="table-responsive">
-                                    <table class="table text-nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th scope="row" class="ps-4"><input class="form-check-input"
-                                                        type="checkbox" id="checkboxNoLabeljob1" value=""
-                                                        aria-label="..."></th>
-                                                <th>
-                                                    Product Name
-                                                </th>
-                                                <th>
-                                                    Price
-                                                </th>
-                                                <th>
-                                                    Color
-                                                </th>
-                                                <th>
-                                                    Quantity
-                                                </th>
-                                                <th>
-                                                    Expected Delivery
-                                                </th>
-                                                <th>
-                                                    Total
-                                                </th>
-                                                <th>
-                                                    Action
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="ps-4"><input class="form-check-input" type="checkbox"
-                                                        id="checkboxNoLabeljob6" value="" aria-label="..."></td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="me-3">
-                                                            <span class="avatar avatar-xxl p-1 border">
-                                                                <span
-                                                                    class="avatar avatar-xl p-1 bg-primary-transparent">
-                                                                    <img src="/storage/assets/images/ecommerce/png/1.png"
-                                                                        alt="">
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                        <div>
-                                                            <div class="mb-1 fs-14 fw-semibold">
-                                                                <a href="javascript:void(0);">Loveseat Compact sofa</a>
-                                                            </div>
-                                                            <div class="mb-1">
-                                                                <span class="me-1">23 Items Remianing</span>
-                                                            </div>
-                                                            <div class="mb-1">
-                                                                <span class="badge bg-success-transparent">30% Shipping
-                                                                    Discount</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="fw-semibold fs-14">
-                                                        $459
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="fw-semibold">Color : </span>
-                                                        <div class="dropdown">
-                                                            <a href="javascript:void(0);" class="p-2 fs-14 text-muted"
-                                                                data-bs-toggle="dropdown" aria-expanded="false"> Black
-                                                                <i
-                                                                    class="ri-arrow-down-s-line align-middle d-inline-block"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu" role="menu">
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Brown</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Gray</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Green</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="product-quantity-container">
-                                                    <div class="input-group border rounded flex-nowrap">
-                                                        <div class="input-group p-1 rounded bg-light flex-nowrap">
-                                                            <button
-                                                                class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-minus"><i
-                                                                    class="ri-subtract-line"></i></button>
-                                                            <input type="text"
-                                                                class="form-control form-control-sm border-0 text-center bg-light w-100"
-                                                                aria-label="quantity" id="product-quantity1"
-                                                                value="2">
-                                                            <button
-                                                                class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-plus"><i
-                                                                    class="ri-add-line"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center"><span
-                                                        class="badge bg-primary-transparent rounded-pill">2
-                                                        Days</span></td>
-                                                <td>
-                                                    <div class="fs-14 fw-semibold">
-                                                        $918
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="wishlist.html"
-                                                        class="btn btn-icon btn-primary-light rounded-pill me-1"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Add To Wishlist"><i
-                                                            class="ri-heart-line"></i></a>
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-icon btn-secondary-light rounded-pill btn-delete"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Remove From cart">
-                                                        <i class="ri-delete-bin-line"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-4"><input class="form-check-input" type="checkbox"
-                                                        id="checkboxNoLabeljob2" value="" aria-label="...">
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="me-3">
-                                                            <span class="avatar avatar-xxl p-1 border">
-                                                                <span
-                                                                    class="avatar avatar-xl p-1 bg-secondary-transparent">
-                                                                    <img src="/storage/assets/images/ecommerce/png/14.png"
-                                                                        alt="">
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                        <div>
-                                                            <div class="mb-1 fs-14 fw-semibold">
-                                                                <a href="javascript:void(0);">Sony Alpha a7 Camera</a>
-                                                            </div>
-                                                            <div class="mb-1">
-                                                                <span class="me-1">05 Items Remianing</span>
-                                                            </div>
-                                                            <div class="mb-1">
-                                                                <span class="badge bg-primary-transparent">65% Merchant
-                                                                    Discount</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="fw-semibold fs-14">
-                                                        $129
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="fw-semibold">Color : </span>
-                                                        <div class="dropdown">
-                                                            <a href="javascript:void(0);" class="p-2 fs-14 text-muted"
-                                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                                Orange
-                                                                <i
-                                                                    class="ri-arrow-down-s-line align-middle d-inline-block"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu" role="menu">
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Brown</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Gray</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Green</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="product-quantity-container">
-                                                    <div class="input-group border rounded flex-nowrap">
-                                                        <div class="input-group p-1 rounded bg-light flex-nowrap">
-                                                            <button
-                                                                class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-minus"><i
-                                                                    class="ri-subtract-line"></i></button>
-                                                            <input type="text"
-                                                                class="form-control form-control-sm border-0 text-center bg-light w-100"
-                                                                aria-label="quantity" id="product-quantity2"
-                                                                value="2">
-                                                            <button
-                                                                class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-plus"><i
-                                                                    class="ri-add-line"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center"><span
-                                                        class="badge bg-secondary-transparent rounded-pill">5
-                                                        Days</span></td>
-                                                <td>
-                                                    <div class="fs-14 fw-semibold">
-                                                        $129
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="wishlist.html"
-                                                        class="btn btn-icon btn-primary-light rounded-pill me-1"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Add To Wishlist"><i
-                                                            class="ri-heart-line"></i></a>
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-icon btn-secondary-light rounded-pill btn-delete"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Remove From cart">
-                                                        <i class="ri-delete-bin-line"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-4"><input class="form-check-input" type="checkbox"
-                                                        id="checkboxNoLabeljob3" value="" aria-label="...">
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="me-3">
-                                                            <span class="avatar avatar-xxl p-1 border">
-                                                                <span
-                                                                    class="avatar avatar-xl p-1 bg-success-transparent">
-                                                                    <img src="/storage/assets/images/ecommerce/png/33.png"
-                                                                        alt="">
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                        <div>
-                                                            <div class="mb-1 fs-14 fw-semibold">
-                                                                <a href="javascript:void(0);">Classic oriental
-                                                                    fragrance
-                                                                    Perfume</a>
-                                                            </div>
-                                                            <div class="mb-1">
-                                                                <span class="me-1">12 Items Remianing</span>
-                                                            </div>
-                                                            <div class="mb-1">
-                                                                <span class="badge bg-primary-transparent">12% Merchant
-                                                                    Discount</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="fw-semibold fs-14">
-                                                        $249
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="fw-semibold">Color : </span>
-                                                        <div class="dropdown">
-                                                            <a href="javascript:void(0);" class="p-2 fs-14 text-muted"
-                                                                data-bs-toggle="dropdown" aria-expanded="false"> Pink
-                                                                <i
-                                                                    class="ri-arrow-down-s-line align-middle d-inline-block"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu" role="menu">
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Brown</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Gray</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Green</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="product-quantity-container">
-                                                    <div class="input-group border rounded flex-nowrap">
-                                                        <div class="input-group p-1 rounded bg-light flex-nowrap">
-                                                            <button
-                                                                class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-minus"><i
-                                                                    class="ri-subtract-line"></i></button>
-                                                            <input type="text"
-                                                                class="form-control form-control-sm border-0 text-center bg-light w-100"
-                                                                aria-label="quantity" id="product-quantity3"
-                                                                value="2">
-                                                            <button
-                                                                class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-plus"><i
-                                                                    class="ri-add-line"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center"><span
-                                                        class="badge bg-success-transparent rounded-pill">3
-                                                        Days</span></td>
-                                                <td>
-                                                    <div class="fs-14 fw-semibold">
-                                                        $498
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="wishlist.html"
-                                                        class="btn btn-icon btn-primary-light rounded-pill me-1"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Add To Wishlist"><i
-                                                            class="ri-heart-line"></i></a>
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-icon btn-secondary-light rounded-pill btn-delete"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Remove From cart">
-                                                        <i class="ri-delete-bin-line"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-4"><input class="form-check-input" type="checkbox"
-                                                        id="checkboxNoLabeljob4" value="" aria-label="...">
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="me-3">
-                                                            <span class="avatar avatar-xxl p-1 border">
-                                                                <span class="avatar avatar-xl p-1 bg-pink-transparent">
-                                                                    <img src="/storage/assets/images/ecommerce/png/31.png"
-                                                                        alt="">
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                        <div>
-                                                            <div class="mb-1 fs-14 fw-semibold">
-                                                                <a href="javascript:void(0);">Babypink Ladies
-                                                                    handbag</a>
-                                                            </div>
-                                                            <div class="mb-1">
-                                                                <span class="me-1">09 Items Remianing</span>
-                                                            </div>
-                                                            <div class="mb-1">
-                                                                <span class="badge bg-success-transparent">75% Shipping
-                                                                    Discount</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="fw-semibold fs-14">
-                                                        $249
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="fw-semibold">Color : </span>
-                                                        <div class="dropdown">
-                                                            <a href="javascript:void(0);" class="p-2 fs-14 text-muted"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-expanded="false">Green<i
-                                                                    class="ri-arrow-down-s-line align-middle d-inline-block"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu" role="menu">
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Brown</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Gray</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Yellow</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="product-quantity-container">
-                                                    <div class="input-group border rounded flex-nowrap">
-                                                        <div class="input-group p-1 rounded bg-light flex-nowrap">
-                                                            <button
-                                                                class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-minus"><i
-                                                                    class="ri-subtract-line"></i></button>
-                                                            <input type="text"
-                                                                class="form-control form-control-sm border-0 text-center bg-light w-100"
-                                                                aria-label="quantity" id="product-quantity4"
-                                                                value="2">
-                                                            <button
-                                                                class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-plus"><i
-                                                                    class="ri-add-line"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="text-center"><span
-                                                        class="badge bg-info-transparent rounded-pill">4 Days</span>
-                                                </td>
-                                                <td>
-                                                    <div class="fs-14 fw-semibold">
-                                                        $498
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="wishlist.html"
-                                                        class="btn btn-icon btn-primary-light rounded-pill me-1"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Add To Wishlist"><i
-                                                            class="ri-heart-line"></i></a>
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-icon btn-secondary-light rounded-pill btn-delete"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Remove From cart">
-                                                        <i class="ri-delete-bin-line"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="ps-4"><input class="form-check-input" type="checkbox"
-                                                        id="checkboxNoLabeljob5" value="" aria-label="...">
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="me-3">
-                                                            <span class="avatar avatar-xxl p-1 border">
-                                                                <span
-                                                                    class="avatar avatar-xl p-1 bg-warning-transparent">
-                                                                    <img src="/storage/assets/images/ecommerce/png/37.png"
-                                                                        alt="">
-                                                                </span>
-                                                            </span>
-                                                        </div>
-                                                        <div>
-                                                            <div class="mb-1 fs-14 fw-semibold">
-                                                                <a href="javascript:void(0);">Yellow Gents Shoe</a>
-                                                            </div>
-                                                            <div class="mb-1">
-                                                                <span class="me-1">52 Items Remianing</span>
-                                                            </div>
-                                                            <div class="mb-1">
-                                                                <span class="badge bg-primary-transparent">15% Merchant
-                                                                    Discount</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="fw-semibold fs-14">
-                                                        $1,299
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <span class="fw-semibold">Color : </span>
-                                                        <div class="dropdown">
-                                                            <a href="javascript:void(0);" class="p-2 fs-14 text-muted"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-expanded="false">Black<i
-                                                                    class="ri-arrow-down-s-line align-middle d-inline-block"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu" role="menu">
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Brown</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Gray</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="javascript:void(0);">Yellow</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="product-quantity-container">
-                                                    <div class="input-group border rounded flex-nowrap">
-                                                        <div class="input-group p-1 rounded bg-light flex-nowrap">
-                                                            <button
-                                                                class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-minus"><i
-                                                                    class="ri-subtract-line"></i></button>
-                                                            <input type="text"
-                                                                class="form-control form-control-sm border-0 text-center bg-light w-100"
-                                                                aria-label="quantity" id="product-quantity5"
-                                                                value="2">
-                                                            <button
-                                                                class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-plus"><i
-                                                                    class="ri-add-line"></i></button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td class="text-center"><span
-                                                        class="badge bg-primary-transparent rounded-pill">2
-                                                        Days</span></td>
-                                                <td>
-                                                    <div class="fs-14 fw-semibold">
-                                                        $1,299
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="wishlist.html"
-                                                        class="btn btn-icon btn-primary-light rounded-pill me-1"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Add To Wishlist"><i
-                                                            class="ri-heart-line"></i></a>
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-icon btn-secondary-light rounded-pill btn-delete"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Remove From cart">
-                                                        <i class="ri-delete-bin-line"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                        @foreach ($carts as $cart)
+                            <div class="card custom-card overflow-hidden" id="cart-container-delete">
+                                <div class="card-header">
+                                    <div class="card-title">{{ $cart->shop }}</div>
                                 </div>
-                            </div>
-                            <div class="card-footer border-top-0">
-                                <div class="d-flex align-items-center">
-                                    <div> Showing 5 Entries <i class="bi bi-arrow-right ms-2 fw-semibold"></i> </div>
-                                    <div class="ms-auto">
-                                        <nav aria-label="Page navigation" class="pagination-style-4">
-                                            <ul class="pagination mb-0">
-                                                <li class="page-item disabled"> <a class="page-link"
-                                                        href="javascript:void(0);"> Prev </a> </li>
-                                                <li class="page-item active"><a class="page-link"
-                                                        href="javascript:void(0);">1</a></li>
-                                                <li class="page-item"><a class="page-link"
-                                                        href="javascript:void(0);">2</a></li>
-                                                <li class="page-item"><a class="page-link"
-                                                        href="javascript:void(0);">3</a></li>
-                                                <li class="page-item"> <a class="page-link text-primary"
-                                                        href="javascript:void(0);"> next </a> </li>
-                                            </ul>
-                                        </nav>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="row" class="ps-4">
+                                                        <input class="form-check-input" type="checkbox" id="checkboxNoLabeljob5" value="{{ $cart->id }}" aria-label="...">
+                                                    </th>
+                                                    <th>Product Name</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Total</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($cart->carts_where_shop as $i)
+                                                    @php($prev = $loop->index > 0 ? $cart->carts_where_shop[$loop->index - 1]->product_id : null)
+                                                    @php($next = $cart->carts_where_shop[$loop->index + 1] ?? null)
+
+                                                    @if ($i->product_id != $prev)
+                                                    <tr>
+                                                        <td class="ps-4">
+                                                            <input class="form-check-input" type="checkbox" id="checkboxNoLabeljob5" value="{{ $i->product_id }}" aria-label="...">
+                                                        </td>
+                                                        <td>
+                                                            {{ $i->product_title }}
+                                                        </td>
+                                                        <td class="ps-4"></td>
+                                                        <td class="ps-4"></td>
+                                                        <td class="ps-4"></td>
+                                                        <td class="ps-4"></td>
+                                                    </tr>
+                                                    @endif
+
+                                                    <tr>
+                                                        @php($sku = array_map('trim', explode('vtexpress=>', $i->title)))
+                                                        <td class="ps-4">
+                                                            <input class="form-check-input" type="checkbox" id="checkboxNoLabeljob5" value="{{ $i->id }}" aria-label="...">
+                                                        </td>
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="me-3">
+                                                                    <span class="avatar avatar-xxl p-1 border">
+                                                                        <span class="avatar avatar-xl p-1 bg-warning-transparent">
+                                                                            <img src="{{ $i->thumbnail }}" alt="">
+                                                                        </span>
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="mb-1 fs-14 fw-semibold">
+                                                                        <a href="{{ $i->link }}">
+                                                                            {{ $sku[0] ?? '' }} <br/>
+                                                                            {{ $sku[1] ?? '' }}
+                                                                            {{ $sku[2] ?? '' }}
+                                                                            {{-- <span class="badge bg-primary-transparent">{{ $sku[0] ?? '' }}</span>
+                                                                            <span class="badge bg-success-transparent">{{ $sku[1] ?? '' }}</span>
+                                                                            <span class="badge bg-primary-transparent">{{ $sku[2] ?? '' }}</span>
+                                                                            <span class="badge bg-primary-transparent">{{ $sku[3] ?? '' }}</span> --}}
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="mb-1">
+                                                                        <span class="me-1">¥{{ $i->price }}</span>
+                                                                    </div>
+                                                                    <div class="mb-1"></div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="fw-semibold fs-14">
+                                                                ￥ {{ $i->price }}
+                                                            </div>
+                                                        </td>
+                                                        <td class="product-quantity-container">
+                                                            <div class="input-group border rounded flex-nowrap">
+                                                                <div class="input-group p-1 rounded bg-light flex-nowrap">
+                                                                    <button class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-minus">
+                                                                        <i class="ri-subtract-line"></i>
+                                                                    </button>
+                                                                    <input type="text" class="form-control form-control-sm border-0 text-center bg-light w-100"
+                                                                        aria-label="quantity" id="product-quantity5"
+                                                                        value="{{ $i->quantity }}">
+                                                                    <button class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-plus">
+                                                                        <i class="ri-add-line"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="fs-14 fw-semibold">
+                                                                ￥ {{ $i->total }}
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <a href="wishlist.html"
+                                                                class="btn btn-icon btn-primary-light rounded-pill me-1"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-title="Add To Wishlist">
+                                                                <i class="ri-heart-line"></i>
+                                                            </a>
+                                                            <a href="javascript:void(0);"
+                                                                class="btn btn-icon btn-secondary-light rounded-pill btn-delete"
+                                                                data-bs-toggle="tooltip" data-bs-placement="top"
+                                                                data-bs-title="Remove From cart">
+                                                                <i class="ri-delete-bin-line"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+
+                                                    @if ($next == null || $i->product_id != $next->product_id)
+                                                    <tr>
+                                                        <td class="ps-4"></td>
+                                                        <td class="ps-4">
+                                                            <textarea name="" placeholder="Note" id="" cols="50" rows="2"></textarea>
+                                                        </td>
+                                                        <td class="ps-4">
+                                                            <input class="form-check-input" type="checkbox" id="kd-1" value="{{ $i->product_id }}" aria-label="...">
+                                                            <label for="kd-1">Đóng Gỗ</label>
+                                                        </td>
+                                                        <td class="ps-4">
+                                                            <input class="form-check-input" type="checkbox" id="kd2" value="{{ $i->product_id }}" aria-label="...">
+                                                            <label for="kd2">Kiểm đếm</label>
+                                                        </td>
+                                                        <td class="ps-4"></td>
+                                                        <td class="ps-4"></td>
+                                                    </tr>
+                                                    @endif
+
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer border-top-0">
+                                    <div class="d-flex align-items-center">
+                                        <div> Showing 5 Entries <i class="bi bi-arrow-right ms-2 fw-semibold"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @endforeach
                         <div class="card custom-card shadow-none d-none" id="cart-empty-cart">
                             <div class="card-header">
                                 <div class="card-title">

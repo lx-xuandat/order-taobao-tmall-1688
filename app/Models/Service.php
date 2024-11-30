@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Traits\RelationshipTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
 class Service extends Model
 {
 	use HasFactory;
+	use RelationshipTrait;
 	protected $table = 'services';
 
 	protected $casts = [
@@ -40,6 +42,6 @@ class Service extends Model
 
 	public function created_by()
 	{
-		return $this->belongsTo(Human::class, 'created_by');
+		return $this->belongsTo(Supplier::class, 'created_by');
 	}
 }
