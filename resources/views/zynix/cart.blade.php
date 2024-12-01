@@ -70,11 +70,11 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($cart->items as $i)
-                                                    @php($prev = $loop->index > 0 ? $cart->items[$loop->index - 1]->product_id : null)
+                                                    @php($prev = $loop->index > 0 ? $cart->items[$loop->index - 1]->ec_link_id : null)
                                                     @php($next = $cart->items[$loop->index + 1] ?? null)
                                                     @php($sku = array_map('trim', explode('vtexpress=>', $i->sku)))
 
-                                                    @if ($i->product_id != $prev)
+                                                    @if ($i->ec_link_id != $prev)
                                                     <tr>
                                                         <td class="ps-4">
                                                             <input class="form-check-input" type="checkbox" id="checkboxNoLabeljob5" value="{{ $i->id }}" aria-label="...">
@@ -162,18 +162,18 @@
                                                         </td>
                                                     </tr>
 
-                                                    @if ($next == null || $i->product_id != $next->product_id)
+                                                    @if ($next == null || $i->ec_link_id != $next->ec_link_id)
                                                     <tr>
                                                         <td class="ps-4"></td>
                                                         <td class="ps-4">
                                                             <textarea name="" placeholder="Note" id="" cols="50" rows="2"></textarea>
                                                         </td>
                                                         <td class="ps-4">
-                                                            <input class="form-check-input" type="checkbox" id="kd-1" value="{{ $i->product_id }}" aria-label="...">
+                                                            <input class="form-check-input" type="checkbox" id="kd-1" value="{{ $i->ec_link_id }}" aria-label="...">
                                                             <label for="kd-1">Đóng Gỗ</label>
                                                         </td>
                                                         <td class="ps-4">
-                                                            <input class="form-check-input" type="checkbox" id="kd2" value="{{ $i->product_id }}" aria-label="...">
+                                                            <input class="form-check-input" type="checkbox" id="kd2" value="{{ $i->ec_link_id }}" aria-label="...">
                                                             <label for="kd2">Kiểm đếm</label>
                                                         </td>
                                                         <td class="ps-4"></td>

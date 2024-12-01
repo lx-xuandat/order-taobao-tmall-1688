@@ -86,7 +86,7 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
             $item = $this->item->whereFirstOrMake(
                 [
                     'shop_id' => $shop->id,
-                    'product_id' => $product->id,
+                    'ec_link_id' => $product->id,
                     'customer_id' => $uid,
                     'sku_link' => $_item['sku_link'],
                     'status' => OrderStatus::ItemInCart->value,
@@ -116,13 +116,13 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
             return $builder
                 ->select([
                     'items.*',
-                    'products.*',
+                    'e_commerce_links.*',
                     \DB::raw('items.quantity * items.price AS total'),
                 ])
                 ->with('notes')
-                ->join('products', 'products.id', '=', 'items.product_id')
+                ->join('e_commerce_links', 'e_commerce_links.id', '=', 'items.ec_link_id')
                 ->where('items.status', OrderStatus::ItemInCart->value)
-                ->where('products.customer_id', $customerId)
+                ->where('e_commerce_links.customer_id', $customerId)
             ;
         };
 

@@ -35,7 +35,7 @@ test('i can see my cart', function () {
         $response->assertJsonFragment([
             'id' => $item->id,
             'cart_id' => $item->cart_id,
-            'product_id' => $item->product_id,
+            'ec_link_id' => $item->ec_link_id,
             'shop_id' => $item->shop_id,
             'quantity' => $item->quantity,
             'price' => $item->price,

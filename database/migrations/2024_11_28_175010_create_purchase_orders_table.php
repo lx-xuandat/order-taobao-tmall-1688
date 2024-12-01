@@ -16,9 +16,9 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('customer_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
+            $table->foreignId('item_id')->constrained('cart_items')->onDelete('cascade');
             $table->foreignId('cart_id')->constrained('carts')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->foreignId('ec_link_id')->constrained('e_commerce_links')->onDelete('cascade');
             $table->foreignId('shop_id')->constrained('users')->onDelete('cascade');
 
             $table->tinyInteger('status');

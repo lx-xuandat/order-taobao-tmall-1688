@@ -19,7 +19,7 @@ return new class extends Migration
 
             $table->foreignId('cart_id')->nullable()->constrained('carts')->onDelete('cascade');
             $table->foreignId('customer_id')->constrained('users')->onDelete('no action');
-            $table->foreignId('product_id')->default(ProductType::GuiHangTQVN->value)->constrained('products')->onDelete('cascade');
+            $table->foreignId('ec_link_id')->default(ProductType::GuiHangTQVN->value)->constrained('e_commerce_links')->onDelete('cascade');
 
             $table->integer('quantity')->default(1);
             $table->decimal('price')->default(0);
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('thumbnail')->default(ProductType::GuiHangTQVN);
             $table->timestamps();
 
-            $table->unique(['customer_id', 'product_id', 'created_at']);
+            $table->unique(['customer_id', 'ec_link_id', 'created_at']);
 
         });
     }
