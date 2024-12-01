@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\OrderStatus;
 use App\Enums\UserType;
 use App\Enums\VoucherType;
 use Illuminate\Database\Migrations\Migration;
@@ -16,9 +17,8 @@ return new class extends Migration
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('customer_id')->constrained('users')->cascadeOnDelete();
-
-            $table->foreignId('shop_id')->default(3)->constrained('users')->cascadeOnDelete();
+            $table->foreignId('customer_id')->constrained('users')->onDelete('no action');
+            $table->foreignId('shop_id')->default(UserType::GuiHangTQVN->value)->constrained('users')->onDelete('no action');
 
             $table->decimal('sub_total', 10, 2)->default(0);
 
@@ -38,7 +38,7 @@ return new class extends Migration
 
             $table->decimal('total', 10, 2)->default(0);
 
-            $table->tinyInteger('status');
+            $table->tinyInteger('status')->default(OrderStatus::ItemInCart->value);
 
             $table->unique(['status', 'customer_id', 'shop_id', 'created_at']);
 

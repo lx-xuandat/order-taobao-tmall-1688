@@ -9,8 +9,6 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use App\Repositories\CartRepository;
 use App\Models\Cart;
 use App\Models\Item;
-use App\Models\User;
-use SebastianBergmann\Type\VoidType;
 
 /**
  * Class CartRepositoryEloquent.
@@ -82,16 +80,7 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
                     'shop_id' => $shop->id,
                     'status' => OrderStatus::ItemInCart->value
                 ],
-                [
-                    // 'sub_total',
-                    // 'delivery',
-                    // 'pickup_point',
-                    // 'discount',
-                    // 'shipping_charges',
-                    // 'tax',
-                    // 'voucher_id' => VoucherType::None->value,
-                    // 'status'
-                ]
+                $_shop
             );
 
             $item = $this->item->whereFirstOrMake(
@@ -123,62 +112,27 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
 
     public function getMyCart($customerId)
     {
-        $withCartDetail = function ($cart) use ($customerId) {
-            return $cart
+        $itemsInCart = function ($builder) use ($customerId) {
+            return $builder
                 ->select([
-                    'carts.*',
-                    'products.title as product_title',
-                    'products.link as product_link',
+                    'items.*',
+                    'products.*',
                     \DB::raw('items.quantity * items.price AS total'),
                 ])
-                ->join('items', 'items.cart_id', '=', 'carts.id')
+                ->with('notes')
                 ->join('products', 'products.id', '=', 'items.product_id')
-                ->where('po_status', OrderStatus::ItemInCart->value)
-                // ->where('parent_id', '<>', null)
-                ->where('carts.customer_id', $customerId);
+                ->where('items.status', OrderStatus::ItemInCart->value)
+                ->where('products.customer_id', $customerId)
+            ;
         };
 
         $carts = $this
-            ->with(['carts_where_shop' => $withCartDetail])
-            ->whereHas('carts_where_shop', $withCartDetail)
-            ->findWhere(
-                [
-                    'type' => UserType::ShopTQ->value,
-                ],
-                [
-                    'id',
-                    'name as shop',
-                    'website',
-                ]
-            );
-
+            ->with('shop')
+            ->with(['items' => $itemsInCart])
+            ->whereHas('items', $itemsInCart)
+            ->findWhere([
+                'status' => OrderStatus::ItemInCart->value
+            ]);
         return $carts;
-    }
-
-
-    /**
-     *
-     */
-    public function getFirstOrCreateCart($customerId, array $shop)
-    {
-        $withShop = function ($builder) use ($shop) {
-            return $builder->where('website', $shop['website']);
-        };
-
-        $cart = $this
-            ->with(['shop' => $withShop])
-            ->whereHas('shop', $withShop)
-            ->where([
-                'customer_id' => $customerId,
-            ])
-            ->firstOr(function () use ($shop, $customerId, $withShop) {
-                return $this->model()::factory()->create([
-                    'customer_id' => $customerId,
-                    'shop_id' => $this->shop->firstOrCreateShop($shop),
-                    'voucher_id' => VoucherType::None->value,
-                ]);
-            });
-
-        return $cart;
     }
 }

@@ -51,7 +51,7 @@
                         @foreach ($carts as $cart)
                             <div class="card custom-card overflow-hidden" id="cart-container-delete">
                                 <div class="card-header">
-                                    <div class="card-title">{{ $cart->shop }}</div>
+                                    <div class="card-title">{{ $cart->shop->name }}</div>
                                 </div>
                                 <div class="card-body p-0">
                                     <div class="table-responsive">
@@ -69,17 +69,18 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($cart->carts_where_shop as $i)
-                                                    @php($prev = $loop->index > 0 ? $cart->carts_where_shop[$loop->index - 1]->product_id : null)
-                                                    @php($next = $cart->carts_where_shop[$loop->index + 1] ?? null)
+                                                @foreach ($cart->items as $i)
+                                                    @php($prev = $loop->index > 0 ? $cart->items[$loop->index - 1]->product_id : null)
+                                                    @php($next = $cart->items[$loop->index + 1] ?? null)
+                                                    @php($sku = array_map('trim', explode('vtexpress=>', $i->sku)))
 
                                                     @if ($i->product_id != $prev)
                                                     <tr>
                                                         <td class="ps-4">
-                                                            <input class="form-check-input" type="checkbox" id="checkboxNoLabeljob5" value="{{ $i->product_id }}" aria-label="...">
+                                                            <input class="form-check-input" type="checkbox" id="checkboxNoLabeljob5" value="{{ $i->id }}" aria-label="...">
                                                         </td>
                                                         <td>
-                                                            {{ $i->product_title }}
+                                                            {{ $i->title }} dat
                                                         </td>
                                                         <td class="ps-4"></td>
                                                         <td class="ps-4"></td>
@@ -89,7 +90,6 @@
                                                     @endif
 
                                                     <tr>
-                                                        @php($sku = array_map('trim', explode('vtexpress=>', $i->title)))
                                                         <td class="ps-4">
                                                             <input class="form-check-input" type="checkbox" id="checkboxNoLabeljob5" value="{{ $i->id }}" aria-label="...">
                                                         </td>

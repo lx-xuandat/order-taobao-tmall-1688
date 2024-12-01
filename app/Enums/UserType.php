@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum UserType: int {
     case Admin = 1; // co 1 user duy nhat
-    case ShopKiGuiTQ_VN = 2; // co 1 user duy nhat
+    case GuiHangTQVN = 2; // co 1 user duy nhat
     case CustomerUndefined = 3; // co 1 user duy nhat
 
     case Employees = 15;

@@ -1,12 +1,9 @@
 <?php
 
-use App\Enums\UserType;
 use App\Models\User;
 
 test('customer add to cart ok', function () {
-    $customer = User::where([
-        'type' => UserType::CustomerUndefined->value,
-    ])->first();
+    $customer = User::factory()->customer()->create();
 
     $response = $this
         ->actingAs($customer)

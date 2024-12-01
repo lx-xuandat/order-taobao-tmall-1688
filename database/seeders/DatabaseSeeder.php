@@ -32,11 +32,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Qui uoc: don hang co shop_id nay se la don hang ki gui, chi co 1 shop type nay duy nhat
-        $ShopKiGuiTQ_VN = \App\Models\User::factory()->create([
-            'id'=> UserType::ShopKiGuiTQ_VN->value,
-            'name' => UserType::ShopKiGuiTQ_VN->name,
+        $GuiHangTQVN = \App\Models\User::factory()->create([
+            'id'=> UserType::GuiHangTQVN->value,
+            'name' => UserType::GuiHangTQVN->name,
             'email' => 'shop@vtexpress.com',
-            'type' => UserType::ShopKiGuiTQ_VN->value,
+            'type' => UserType::GuiHangTQVN->value,
             'password' => bcrypt('shop@vtexpress.com'),
             'active' => true,
             'website' => 'vtexpress.com',
