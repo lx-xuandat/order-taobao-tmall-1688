@@ -17,4 +17,7 @@ yarn-error.log
 /.idea
 /.vscode
 
+database/factories
 app/Entities/
+app/Models/
+!app/Models/User.php
