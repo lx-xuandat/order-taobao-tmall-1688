@@ -58,9 +58,6 @@
             "@php artisan key:generate --ansi"
         ],
         "deploy" : [
-            "rm -rf ./bootstrap/cache/*.php",
-            "rm -rf ./storage/app/*.php",
-            "rm -rf ./storage/debugbar/*.json",
             "@php artisan optimize:clear",
             "@php artisan migrate:refresh",
             "@php artisan code:model",
