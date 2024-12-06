@@ -56,6 +56,12 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "deploy" : [
+            "@php artisan migrate",
+            "@php artisan code:model",
+            "@php artisan generate:factory --force",
+            "@php artisan db:seed"
         ]
     },
     "extra": {
@@ -77,3 +83,4 @@
     "minimum-stability": "stable",
     "prefer-stable": true
 }
+

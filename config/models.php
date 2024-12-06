@@ -73,6 +73,7 @@ return [
             // Reliese\Database\Eloquent\BitBooleans::class,
             // Reliese\Database\Eloquent\BlamableBehavior::class,
             HasFactory::class,
+            App\Traits\RelationshipTrait::class,
             // Prettus\Repository\Traits\TransformableTrait::class,
         ],
 
@@ -348,7 +349,7 @@ return [
         */
 
         'model_names' => [
-            'users' => 'Human'
+            'users' => 'Supplier'
         ],
 
         /*

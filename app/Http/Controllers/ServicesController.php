@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
 use App\Http\Requests\ServicesCreateRequest;
 use App\Http\Requests\ServicesUpdateRequest;
-use App\Repositories\ServicesRepository;
+use App\Repositories\AdminRepository;
 
 /**
  * Class ServicesController.
@@ -16,11 +15,11 @@ use App\Repositories\ServicesRepository;
 class ServicesController extends Controller
 {
     /**
-     * @var ServicesRepository
+     * @var AdminRepository
      */
-    protected ServicesRepository $repository;
+    protected AdminRepository $repository;
 
-    public function __construct(ServicesRepository $repository)
+    public function __construct(AdminRepository $repository)
     {
         $this->repository = $repository;
     }

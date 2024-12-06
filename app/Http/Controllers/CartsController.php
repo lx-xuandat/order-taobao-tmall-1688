@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\OrderStatus;
 use App\Exceptions\AddToCartException;
 use App\Http\Requests\AddToCartRequest;
+use App\Http\Requests\CartLinkUpdateRequest;
 use App\Repositories\CartRepository;
 
 /**
@@ -30,7 +32,8 @@ class CartsController extends Controller
 
     public function index()
     {
-        $carts = $this->repository->all();
+        $customerId = auth('web')->user()->id;
+        $carts = $this->repository->getMyCart($customerId);
 
         if (request()->wantsJson()) {
 
@@ -39,7 +42,7 @@ class CartsController extends Controller
             ]);
         }
 
-        return view('carts.index', compact('carts'));
+        return view('zynix.cart', compact('carts'));
     }
 
     public function addToCart(AddToCartRequest $request)
@@ -47,31 +50,26 @@ class CartsController extends Controller
         try {
             $origin = $request->header('Origin');
 
-            if ($origin == 'https://item.taobao.com') {
-                $links = clean_link_item_taobao($request->input('product.item_link'));
-                $unique = [
-                    ...$links,
-                    'customer_id' => auth()->id(),
-                    'po_status' => 0,
+            $webs = ['https://item.taobao.com', 'https://detail.tmall.com'];
+
+            if (in_array($origin, $webs)) {
+                $uid = auth()->id();
+                $item = [
+                    ...$request->input('product'),
+                    ...clean_link_item_taobao($request->input('product.link')),
+                    'customer_id' => $uid,
+                    'status' => OrderStatus::ItemInCart->value,
+                ];
+                $cart = [
+                    ...$request->input('shop'),
+                    'customer_id' => $uid,
+                    'status' => OrderStatus::ItemInCart->value,
                 ];
             } else {
                 throw (new AddToCartException())->WebsiteNotSupport();
             }
 
-            $data = [
-                $unique,
-                [
-                    ...$request->input('shop'),
-                    ...$request->input('product'),
-                    ...$unique,
-                    ...$links,
-                    'origin' => $origin,
-                    'shop_link' => clean_link_shop($request->input('shop.shop_link')),
-                    'shop' => $request->input('shop'),
-                ]
-            ];
-
-            $cart = $this->repository->addToCart(...$data);
+            $cart = $this->repository->addItemToCart($uid, $item, $cart);
 
             $response = [
                 'message' => 'Sản phẩm đã có trong giỏ hàng. Cảm ơn quí khách!!!',
@@ -106,4 +104,46 @@ class CartsController extends Controller
             return redirect()->back()->withErrors($e->getMessage())->withInput();
         }
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  CartLinkUpdateRequest $request
+     * @param  string            $id
+     *
+     * @return Response
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function updateCartLink(CartLinkUpdateRequest $request)
+    {
+        try {
+
+            $service = $this->repository->update($request->all(), $request->input('link.link_id'));
+
+            $response = [
+                'message' => 'Services updated.',
+                'data'    => $service->toArray(),
+            ];
+
+            if ($request->wantsJson()) {
+
+                return response()->json($response);
+            }
+
+            return redirect()->back()->with('message', $response['message']);
+        } catch (\Exception $e) {
+
+            if ($request->wantsJson()) {
+
+                return response()->json([
+                    'error'   => true,
+                    'message' => $e->getMessage()
+                ]);
+            }
+
+            return redirect()->back()->withErrors($e->getMessage())->withInput();
+        }
+    }
+
 }

@@ -2,11 +2,12 @@
 
 namespace App\Repositories;
 
-use App\Enums\POTracking;
-use App\Enums\UserRole;
+use App\Enums\OrderStatus;
+use App\Enums\UserType;
 use Prettus\Repository\Eloquent\BaseRepository;
 use App\Repositories\CartRepository;
 use App\Models\Cart;
+use App\Models\Item;
 
 /**
  * Class CartRepositoryEloquent.
@@ -16,8 +17,9 @@ use App\Models\Cart;
 class CartRepositoryEloquent extends BaseRepository implements CartRepository
 {
 
-    protected ShopRepository $shop;
-    protected ProductRepository $product;
+    protected SupplierRepository $shop;
+    protected ECommerceLinkRepository $ecLink;
+    protected ItemRepository $item;
     /**
      * Specify Model class name
      *
@@ -33,84 +35,123 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
      */
     public function boot()
     {
-        $this->product = app(ProductRepository::class);
-        $this->shop = app(ShopRepository::class);
+        $this->ecLink = app(ECommerceLinkRepository::class);
+        $this->shop = app(SupplierRepository::class);
+        $this->item = app(ItemRepository::class);
     }
 
-    public function addToCart($unique, array $request): Cart
+    /**
+     * Add Item to Cart
+     */
+    public function addItemToCart($uid, array $_item, array $_shop): Item
     {
         try {
             \DB::beginTransaction();
-            $update = true;
-            $cart = $this->model
-                ->where([
-                    'customer_id' => $unique['customer_id'],
-                    'item_id' => $unique['item_id'],
-                    'sku_id' => $unique['sku_id'],
-                    'po_status' => POTracking::CHUA_GUI_DON->value,
-                ])
-                ->firstOr(function () use ($request, &$update, $unique) {
-                    $update = false;
-                    $model = $this->make([
-                        ...$request,
-                        'customer_id' => $unique['customer_id'],
-                        'item_id' => $unique['item_id'],
-                        'sku_id' => $unique['sku_id'],
-                        'po_status' => POTracking::CHUA_GUI_DON->value,
-                    ]);
 
-                    $shop = $this->shop->model->firstOrCreate(
-                        [
-                            'type' => UserRole::ShopTQ->value,
-                            'website' => clean_link_shop($request['shop']['shop_link']),
-                            'name' => $request['shop']['shop_name']
-                        ],
-                        [
-                            'name' => $request['shop']['shop_name'],
-                            'website' => clean_link_shop($request['shop']['shop_link']),
-                            'type' => UserRole::ShopTQ->value,
-                        ]
-                    );
+            $item = $this->item->model->firstOrNew(
+                [
+                    'customer_id' => $uid,
+                    'sku_link' => $_item['sku_link'],
+                    'status' => OrderStatus::ItemInCart->value,
+                ],
+                $_item
+            );
 
-                    $item = $this->product->model->firstOrCreate(
-                        [
-                            'item_id' => $unique['item_id'],
-                            'china_shop_id' => $shop->id,
-                            'sku_id' => 'null',
-                        ],
-                        [
-                            'item_id' => $unique['item_id'],
-                            'link' => $request['item_link'],
-                            'title' => $request['item_title'],
-                            'picture'  => $request['item_picture'],
-                            'china_shop_id' => $shop->id,
-                            'price' => $request['item_price'],
+            if ($item->cart_id == null) {
+                $shop = $this->shop->updateOrCreate(
+                    [
+                        'website' => $_shop['website'],
+                        'type' => UserType::ShopTQ->value
+                    ],
+                    [
+                        'website' => $_shop['website'],
+                        'name' => $_shop['name'],
+                        'email' =>  $_shop['website'],
+                        'address' => 'China',
+                        'phone' => 'undefined'
+                    ],
+                );
 
-                        ]
-                    );
+                $ecLink = $this->ecLink->updateOrCreate(
+                    [
+                        'item_link' => $_item['item_link'],
+                        'shop_id' => $shop->id,
+                    ],
+                    [
+                        ...$_item,
+                        // 'link' => $_item['item_link'],
+                    ]
+                );
 
-                    $model->shop_id = $shop->id;
-                    $model->product_id = $item->id;
-                    $model->item_id = $item->item_id;
-                    $model->sku_id = $unique['sku_id'];
+                $cart = $this->model->updateOrCreate(
+                    [
+                        'customer_id' => $uid,
+                        'shop_id' => $shop->id,
+                        'status' => OrderStatus::ItemInCart->value
+                    ],
+                    $_shop
+                );
 
-                    $model->save();
+                $cartLink = $cart->cart_links()->updateOrCreate([
+                    'ec_link_id' => $ecLink->id,
+                    'customer_id' => $uid,
+                ], [
 
-                    return $model;
-                });
-
-            if ($update) {
-                $cart->update([
-                    'item_quantity' => $cart->item_quantity + $request['item_quantity'],
-                    'item_price' => $request['item_price'],
+                    'extra_services' => [],
                 ]);
+
+                $item->cart_id = $cart->id;
+                $item->cart_link_id = $cartLink->id;
+                $item->shop_id = $shop->id;
+                $item->ec_link_id = $ecLink->id;
+            } else {
+                $item->quantity += $_item['quantity'];
+                $item->price = $_item['price'];
+                $item->sku = $_item['sku'];
             }
+            $item->save();
             \DB::commit();
-            return $cart;
+            return $item;
         } catch (\Exception $e) {
             \DB::rollBack();
-
             throw $e;
         }
+    }
+
+    public function getMyCart($customerId)
+    {
+        $itemsInCart = function ($builder) use ($customerId) {
+            return $builder
+                ->select([
+                    'items.*',
+                    'items.id as item_id',
+                    'e_commerce_links.*',
+                    \DB::raw('items.quantity * items.price AS total'),
+                ])
+                // ->with('cart_link')
+                // ->with('comments')
+                ->join('e_commerce_links', 'e_commerce_links.id', '=', 'items.ec_link_id')
+                ->where('items.status', OrderStatus::ItemInCart->value)
+            ;
+        };
+
+        $carts = $this
+            ->with('shop')
+            ->with(['cart_links' => function ($builder) use ($itemsInCart) {
+                return $builder->select([
+                    'e_commerce_links.*',
+                    'cart_links.*',
+                    'cart_links.id as cart_link_id',
+                ])
+                ->with(['items' => $itemsInCart])
+                ->join('e_commerce_links', 'e_commerce_links.id', '=', 'cart_links.ec_link_id');
+            }])
+            // ->with(['items' => $itemsInCart])
+            // ->whereHas('items', $itemsInCart)
+            ->findWhere([
+                'status' => OrderStatus::ItemInCart->value
+            ]);
+            // dd($carts);
+        return $carts;
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-use App\Providers\RepositoryServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -195,7 +194,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        RepositoryServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
+        App\Providers\ViewServiceProvider::class,
     ],
 
     /*

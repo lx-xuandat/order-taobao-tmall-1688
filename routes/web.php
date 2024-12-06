@@ -32,12 +32,13 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::group(['as' => 'frontend.', 'middleware' => 'auth'], function () {
-    Route::resource('carts', CartsController::class);
+Route::group(['as' => 'fe.', 'middleware' => 'auth'], function () {
+    Route::get('carts', [CartsController::class, 'index'])->name('cart.index');
+    Route::put('e-commerce/cart-links', [CartsController::class, 'updateCartLink'])->name('cart.update-cart-link');
 });
 
 
 Route::group(['prefix'=> 'extensions', 'as'=> 'extensions', 'middleware' => ['auth']], function () {
-    Route::get('get-yuan-exrate', [ServicesController::class, 'getYuanExRate']);
-    Route::post('add-to-cart', [CartsController::class, 'addToCart']);
+    Route::get('get-yuan', [ServicesController::class, 'getYuanExRate'])->name('get-yuan');
+    Route::post('add-to-cart', [CartsController::class, 'addToCart'])->name('add-to-cart');
 });
