@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\OrderStatus;
 use App\Enums\ProductType;
 use App\Enums\UserType;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,13 +15,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('cart_items', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('cart_id')->nullable()->constrained('carts')->onDelete('cascade');
-            $table->foreignId('customer_id')->constrained('users')->onDelete('no action');
-            $table->foreignId('ec_link_id')->default(ProductType::GuiHangTQVN->value)->constrained('e_commerce_links')->onDelete('cascade');
+            $table->foreignId('cart_id')->nullable()->constrained('carts');
+            $table->foreignId('customer_id')->default(UserType::CustomerUndefined->value)->constrained('users');
+            $table->foreignId('shop_id')->default(UserType::GuiHangTQVN->value)->constrained('users');
+            $table->foreignId('ec_link_id')->default(ProductType::GuiHangTQVN->value)->constrained('e_commerce_links');
 
+            $table->foreignId('cart_link_id')->nullable()->constrained('cart_links');
+
+            $table->tinyInteger('status')->default(OrderStatus::ItemInCart);
             $table->integer('quantity')->default(1);
             $table->decimal('price')->default(0);
             $table->string('sku_link', 200)->index()->default(ProductType::GuiHangTQVN);
@@ -40,6 +45,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cart_items');
+        Schema::dropIfExists('items');
     }
 };

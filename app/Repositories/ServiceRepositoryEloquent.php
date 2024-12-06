@@ -6,7 +6,6 @@ use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Repositories\ServiceRepository;
 use App\Models\Service;
-use App\Validators\ServiceValidator;
 
 /**
  * Class ServiceRepositoryEloquent.

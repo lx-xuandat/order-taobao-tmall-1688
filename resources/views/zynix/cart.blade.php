@@ -47,7 +47,7 @@
 
                 <!-- Start::row-1 -->
                 <div class="row">
-                    <div class="col-xxl-9">
+                    <div class="col-md-9 -ml-3col-xxl-9">
                         @foreach ($carts as $cart)
                             <div class="card custom-card overflow-hidden" id="cart-container-delete">
                                 <div class="card-header">
@@ -55,56 +55,57 @@
                                 </div>
                                 <div class="card-body p-0">
                                     <div class="table-responsive">
-                                        <table class="table text-nowrap">
+                                        <table class="table text-nowrap cart">
                                             <thead>
                                                 <tr>
                                                     <th scope="row" class="ps-4">
-                                                        <input class="form-check-input" type="checkbox" id="checkboxNoLabeljob5" value="{{ $cart->id }}" aria-label="...">
+                                                        <input class="form-check-input vtx-cart vtx-cart-{{ $cart->id }}"
+                                                            vtx-cart="{{ $cart->id }}"
+                                                            type="checkbox" aria-label="...">
                                                     </th>
                                                     <th>Product Name</th>
-                                                    <th>Price</th>
+                                                    {{-- <th>Price</th> --}}
                                                     <th>Quantity</th>
                                                     <th>Total</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($cart->items as $i)
-                                                    @php($prev = $loop->index > 0 ? $cart->items[$loop->index - 1]->ec_link_id : null)
-                                                    @php($next = $cart->items[$loop->index + 1] ?? null)
-                                                    @php($sku = array_map('trim', explode('vtexpress=>', $i->sku)))
+                                            @foreach ($cart->cart_links as $link)
 
-                                                    @if ($i->ec_link_id != $prev)
-                                                    <tr>
-                                                        <td class="ps-4">
-                                                            <input class="form-check-input" type="checkbox" id="checkboxNoLabeljob5" value="{{ $i->id }}" aria-label="...">
-                                                        </td>
-                                                        <td>
-                                                            {{ $i->title }} dat
-                                                        </td>
-                                                        <td class="ps-4"></td>
-                                                        <td class="ps-4"></td>
-                                                        <td class="ps-4"></td>
-                                                        <td class="ps-4"></td>
-                                                    </tr>
-                                                    @endif
+                                                <tr>
+                                                    <td class="ps-4">
+                                                        <input class="form-check-input vtx-link vtx-link-{{ $link->id }} vtx-cart-{{ $cart->id }}"
+                                                        vtx-cart="{{ $cart->id }}" vtx-link="{{ $link->id }}"
+                                                        type="checkbox" vtx-link="{{ $link->id }}" aria-label="...">
+                                                    </td>
+                                                    <td> {{ $link->title }} </td>
+                                                    <td class="ps-4"></td>
+                                                    <td class="ps-4"></td>
+                                                    <td class="ps-4"></td>
+                                                </tr>
 
-                                                    <tr>
+                                                @foreach ($link->items as $item)
+                                                    @php($sku = array_map('trim', explode('vtexpress=>', $item->sku)))
+                                                    <tr class="row-item-{{ $item->cart_id }}">
                                                         <td class="ps-4">
-                                                            <input class="form-check-input" type="checkbox" id="checkboxNoLabeljob5" value="{{ $i->id }}" aria-label="...">
+                                                            <input class="form-check-input vtx-item vtx-link-{{ $link->id }} vtx-cart-{{$cart->id}}"
+                                                                vtx-cart="{{ $cart->id }}" vtx-link="{{ $link->id }}" vtx-item="{{ $item->item_id }}"
+                                                                name="item[{{ $item->item_id }}][checked]"
+                                                                type="checkbox" aria-label="...">
                                                         </td>
                                                         <td>
                                                             <div class="d-flex align-items-center">
                                                                 <div class="me-3">
                                                                     <span class="avatar avatar-xxl p-1 border">
                                                                         <span class="avatar avatar-xl p-1 bg-warning-transparent">
-                                                                            <img src="{{ $i->thumbnail }}" alt="">
+                                                                            <img src="{{ $item->thumbnail }}" alt="">
                                                                         </span>
                                                                     </span>
                                                                 </div>
                                                                 <div>
                                                                     <div class="mb-1 fs-14 fw-semibold">
-                                                                        <a href="{{ $i->link }}">
+                                                                        <a href="{{ $item->sku_link }}">
                                                                             {{ $sku[0] ?? '' }} <br/>
                                                                             {{ $sku[1] ?? '' }}
                                                                             {{ $sku[2] ?? '' }}
@@ -115,26 +116,32 @@
                                                                         </a>
                                                                     </div>
                                                                     <div class="mb-1">
-                                                                        <span class="me-1">¥{{ $i->price }}</span>
+                                                                        <span class="me-1">¥{{ $item->price }}</span>
                                                                     </div>
-                                                                    <div class="mb-1"></div>
+                                                                    <div class="mb-1">
+                                                                        {{-- <input name="" placeholder="Note"/> --}}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </td>
+                                                        {{--
                                                         <td>
                                                             <div class="fw-semibold fs-14">
-                                                                ￥ {{ $i->price }}
+                                                                ￥ {{ $item->price }}
                                                             </div>
                                                         </td>
+                                                        --}}
                                                         <td class="product-quantity-container">
                                                             <div class="input-group border rounded flex-nowrap">
                                                                 <div class="input-group p-1 rounded bg-light flex-nowrap">
                                                                     <button class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-minus">
                                                                         <i class="ri-subtract-line"></i>
                                                                     </button>
-                                                                    <input type="text" class="form-control form-control-sm border-0 text-center bg-light w-100"
-                                                                        aria-label="quantity" id="product-quantity5"
-                                                                        value="{{ $i->quantity }}">
+                                                                    <input type="text"
+                                                                        name="item[{{ $item->item_id }}][quantity]"
+                                                                        class="form-control form-control-sm border-0 text-center bg-light w-100"
+                                                                        aria-label="quantity"
+                                                                        value="{{ $item->quantity }}">
                                                                     <button class="btn btn-icon bg-white border input-group-text flex-fill product-quantity-plus">
                                                                         <i class="ri-add-line"></i>
                                                                     </button>
@@ -143,7 +150,7 @@
                                                         </td>
                                                         <td>
                                                             <div class="fs-14 fw-semibold">
-                                                                ￥ {{ $i->total }}
+                                                                ￥ {{ $item->total }}
                                                             </div>
                                                         </td>
                                                         <td>
@@ -161,27 +168,29 @@
                                                             </a>
                                                         </td>
                                                     </tr>
-
-                                                    @if ($next == null || $i->ec_link_id != $next->ec_link_id)
-                                                    <tr>
-                                                        <td class="ps-4"></td>
-                                                        <td class="ps-4">
-                                                            <textarea name="" placeholder="Note" id="" cols="50" rows="2"></textarea>
-                                                        </td>
-                                                        <td class="ps-4">
-                                                            <input class="form-check-input" type="checkbox" id="kd-1" value="{{ $i->ec_link_id }}" aria-label="...">
-                                                            <label for="kd-1">Đóng Gỗ</label>
-                                                        </td>
-                                                        <td class="ps-4">
-                                                            <input class="form-check-input" type="checkbox" id="kd2" value="{{ $i->ec_link_id }}" aria-label="...">
-                                                            <label for="kd2">Kiểm đếm</label>
-                                                        </td>
-                                                        <td class="ps-4"></td>
-                                                        <td class="ps-4"></td>
-                                                    </tr>
-                                                    @endif
-
                                                 @endforeach
+
+                                                <tr vtx-cart-link="{{ $link->id }}">
+                                                    <td class="ps-4"></td>
+                                                    <td class="ps-4">
+                                                        <textarea placeholder="Note" id="note_{{ $link->id }}"
+                                                            name="link[{{ $link->id }}][note]" cols="50" rows="2"></textarea>
+                                                    </td>
+                                                    <td class="ps-4">
+                                                        <input class="form-check-input" type="checkbox" id="dong_go_{{ $link->id }}"
+                                                            name="link[{{ $link->id }}][dong_go]" checked
+                                                            aria-label="...">
+                                                        <label for="dong_go_{{ $link->id }}">Đóng Gỗ</label>
+                                                    </td>
+                                                    <td class="ps-4">
+                                                        <input class="form-check-input" type="checkbox" id="kiem_dem_{{ $link->id }}"
+                                                            name="link[{{ $link->id }}][kiem_dem]" checked
+                                                            aria-label="...">
+                                                        <label for="kiem_dem_{{ $link->id }}">Kiểm đếm</label>
+                                                    </td>
+                                                    <td class="ps-4"></td>
+                                                </tr>
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -224,7 +233,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xxl-3">
+                    <div class="col-md-3 -ml-3col-xxl-3">
                         <div class="card custom-card">
                             <div class="card-header">
                                 <div class="card-title">Summery</div>
@@ -408,11 +417,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-center mt-0 flex-wrap"> <a href="checkout.html"
-                                        class="btn btn-secondary btn-w-lg m-1 flex-fill">Check
-                                        Out <i class="ti ti-arrow-right me-2"></i></a> <a href="products.html"
-                                        class="btn btn-primary flex-fill m-1">Continue Shopping <i
-                                            class="ti ti-arrow-right me-2"></i></a> </div>
+                                <div class="d-flex align-items-center mt-0 flex-wrap">
+                                    <a role="button" class="btn btn-secondary btn-w-lg m-1 flex-fill vtx-checkout">
+                                        CheckOut
+                                        <i class="ti ti-arrow-right me-2"></i>
+                                    </a>
+                                    <a role="button"
+                                        class="btn btn-primary flex-fill m-1" id="vtx-update-carts">
+                                        Update Cart
+                                        <i class="ti ti-arrow-right me-2"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -435,12 +450,11 @@
     <!-- Sweetalerts JS -->
     <script src="/storage/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
-    <!-- Internal Cart JS -->
-    <script src="/storage/assets/js/cart.js"></script>
-
     <!-- Custom JS -->
     <script src="/storage/assets/js/custom.js"></script>
 
+    <!-- Internal Cart JS -->
+    <script src="/storage/assets/js/cart.js"></script>
 </body>
 
 </html>

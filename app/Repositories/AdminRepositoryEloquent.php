@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
 use App\Repositories\AdminRepository;
 use App\Models\Service;
 

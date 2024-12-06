@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
         $admin = \App\Models\User::factory()->create([
             'id' => UserType::Admin->value,
             'name' => UserType::Admin->name,
-            'email' => 'admin@vtexpress.com',
+            'email' => 'lx.xuandat@gmail.com',
             'type' => UserType::Admin->value,
-            'password' => bcrypt('admin@vtexpress.com'),
+            'password' => bcrypt('lx.xuandat@gmail.com'),
             'active' => true,
             'website' => 'vtexpress.com',
             'address' => 'Hoang Mai, Ha Noi',

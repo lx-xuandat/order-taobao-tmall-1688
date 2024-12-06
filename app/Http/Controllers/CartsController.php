@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Exceptions\AddToCartException;
 use App\Http\Requests\AddToCartRequest;
+use App\Http\Requests\CartLinkUpdateRequest;
 use App\Repositories\CartRepository;
 
 /**
@@ -103,4 +104,46 @@ class CartsController extends Controller
             return redirect()->back()->withErrors($e->getMessage())->withInput();
         }
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  CartLinkUpdateRequest $request
+     * @param  string            $id
+     *
+     * @return Response
+     *
+     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     */
+    public function updateCartLink(CartLinkUpdateRequest $request)
+    {
+        try {
+
+            $service = $this->repository->update($request->all(), $request->input('link.link_id'));
+
+            $response = [
+                'message' => 'Services updated.',
+                'data'    => $service->toArray(),
+            ];
+
+            if ($request->wantsJson()) {
+
+                return response()->json($response);
+            }
+
+            return redirect()->back()->with('message', $response['message']);
+        } catch (\Exception $e) {
+
+            if ($request->wantsJson()) {
+
+                return response()->json([
+                    'error'   => true,
+                    'message' => $e->getMessage()
+                ]);
+            }
+
+            return redirect()->back()->withErrors($e->getMessage())->withInput();
+        }
+    }
+
 }

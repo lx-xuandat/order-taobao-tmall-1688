@@ -2,18 +2,16 @@
 
 namespace App\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\ProductRepository;
-use App\Models\Product;
-use App\Validators\ProductValidator;
+use App\Repositories\ECommerceLinkRepository;
+use App\Models\ECommerceLink;
 
 /**
- * Class ProductRepositoryEloquent.
+ * Class ECommerceLinkRepositoryEloquent.
  *
  * @package namespace App\Repositories;
  */
-class ProductRepositoryEloquent extends BaseRepository implements ProductRepository
+class ECommerceLinkRepositoryEloquent extends BaseRepository implements ECommerceLinkRepository
 {
     /**
      * Specify Model class name
@@ -22,7 +20,7 @@ class ProductRepositoryEloquent extends BaseRepository implements ProductReposit
      */
     public function model()
     {
-        return Product::class;
+        return ECommerceLink::class;
     }
 
 

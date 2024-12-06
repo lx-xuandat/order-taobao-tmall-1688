@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Enums\OrderStatus;
 use App\Enums\UserType;
-use App\Enums\VoucherType;
 use Prettus\Repository\Eloquent\BaseRepository;
 use App\Repositories\CartRepository;
 use App\Models\Cart;
@@ -19,7 +18,7 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
 {
 
     protected SupplierRepository $shop;
-    protected ProductRepository $product;
+    protected ECommerceLinkRepository $ecLink;
     protected ItemRepository $item;
     /**
      * Specify Model class name
@@ -36,7 +35,7 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
      */
     public function boot()
     {
-        $this->product = app(ProductRepository::class);
+        $this->ecLink = app(ECommerceLinkRepository::class);
         $this->shop = app(SupplierRepository::class);
         $this->item = app(ItemRepository::class);
     }
@@ -49,44 +48,8 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
         try {
             \DB::beginTransaction();
 
-            $shop = $this->shop->updateOrCreate(
+            $item = $this->item->model->firstOrNew(
                 [
-                    'website' => $_shop['website'],
-                    'type' => UserType::ShopTQ->value
-                ],
-                [
-                    'website' => $_shop['website'],
-                    'name' => $_shop['name'],
-                    'email' =>  $_shop['website'],
-                    'address' => 'China',
-                    'phone' => 'undefined'
-                ],
-            );
-
-            $product = $this->product->updateOrCreate(
-                [
-                    'item_link' => $_item['item_link'],
-                    'shop_id' => $shop->id,
-                ],
-                [
-                    ...$_item,
-                    // 'link' => $_item['item_link'],
-                ]
-            );
-
-            $cart = $this->model->updateOrCreate(
-                [
-                    'customer_id' => $uid,
-                    'shop_id' => $shop->id,
-                    'status' => OrderStatus::ItemInCart->value
-                ],
-                $_shop
-            );
-
-            $item = $this->item->whereFirstOrMake(
-                [
-                    'shop_id' => $shop->id,
-                    'ec_link_id' => $product->id,
                     'customer_id' => $uid,
                     'sku_link' => $_item['sku_link'],
                     'status' => OrderStatus::ItemInCart->value,
@@ -95,7 +58,52 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
             );
 
             if ($item->cart_id == null) {
+                $shop = $this->shop->updateOrCreate(
+                    [
+                        'website' => $_shop['website'],
+                        'type' => UserType::ShopTQ->value
+                    ],
+                    [
+                        'website' => $_shop['website'],
+                        'name' => $_shop['name'],
+                        'email' =>  $_shop['website'],
+                        'address' => 'China',
+                        'phone' => 'undefined'
+                    ],
+                );
+
+                $ecLink = $this->ecLink->updateOrCreate(
+                    [
+                        'item_link' => $_item['item_link'],
+                        'shop_id' => $shop->id,
+                    ],
+                    [
+                        ...$_item,
+                        // 'link' => $_item['item_link'],
+                    ]
+                );
+
+                $cart = $this->model->updateOrCreate(
+                    [
+                        'customer_id' => $uid,
+                        'shop_id' => $shop->id,
+                        'status' => OrderStatus::ItemInCart->value
+                    ],
+                    $_shop
+                );
+
+                $cartLink = $cart->cart_links()->updateOrCreate([
+                    'ec_link_id' => $ecLink->id,
+                    'customer_id' => $uid,
+                ], [
+
+                    'extra_services' => [],
+                ]);
+
                 $item->cart_id = $cart->id;
+                $item->cart_link_id = $cartLink->id;
+                $item->shop_id = $shop->id;
+                $item->ec_link_id = $ecLink->id;
             } else {
                 $item->quantity += $_item['quantity'];
                 $item->price = $_item['price'];
@@ -116,23 +124,34 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
             return $builder
                 ->select([
                     'items.*',
+                    'items.id as item_id',
                     'e_commerce_links.*',
                     \DB::raw('items.quantity * items.price AS total'),
                 ])
-                ->with('notes')
+                // ->with('cart_link')
+                // ->with('comments')
                 ->join('e_commerce_links', 'e_commerce_links.id', '=', 'items.ec_link_id')
                 ->where('items.status', OrderStatus::ItemInCart->value)
-                ->where('e_commerce_links.customer_id', $customerId)
             ;
         };
 
         $carts = $this
             ->with('shop')
-            ->with(['items' => $itemsInCart])
-            ->whereHas('items', $itemsInCart)
+            ->with(['cart_links' => function ($builder) use ($itemsInCart) {
+                return $builder->select([
+                    'e_commerce_links.*',
+                    'cart_links.*',
+                    'cart_links.id as cart_link_id',
+                ])
+                ->with(['items' => $itemsInCart])
+                ->join('e_commerce_links', 'e_commerce_links.id', '=', 'cart_links.ec_link_id');
+            }])
+            // ->with(['items' => $itemsInCart])
+            // ->whereHas('items', $itemsInCart)
             ->findWhere([
                 'status' => OrderStatus::ItemInCart->value
             ]);
+            // dd($carts);
         return $carts;
     }
 }
