@@ -129,6 +129,7 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
                     'items.*',
                     'items.id as item_id',
                     'e_commerce_links.*',
+                    'e_commerce_links.thumbnail as ec_link_thumbnail',
                     \DB::raw('items.quantity * items.price AS total'),
                 ])
                 // ->with('cart_link')
