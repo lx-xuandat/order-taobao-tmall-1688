@@ -32,7 +32,7 @@ final class CartLinkFactory extends Factory
             'cart_id' => \App\Models\Cart::factory(),
             'ec_link_id' => \App\Models\ECommerceLink::factory(),
             'customer_id' => \App\Models\Supplier::factory(),
-            'extra_services' => fake()->word,
+            'services_json' => fake()->optional()->word,
         ];
     }
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('ec_link_id')->default(ProductType::GuiHangTQVN->value)->constrained('e_commerce_links');
             $table->foreignId('customer_id')->default(UserType::CustomerUndefined->value)->constrained('users');
 
-            $table->json('extra_services')->comment('Cac dich vu khac neu co sd: dong go, kiem dem,...');
+            $table->longText('services_json')->nullable()->comment('Cac dich vu khac neu co sd: dong go, kiem dem,...');
 
             $table->timestamps();
 

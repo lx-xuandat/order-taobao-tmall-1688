@@ -97,7 +97,10 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
                     'customer_id' => $uid,
                 ], [
 
-                    'extra_services' => [],
+                    'services_json' => [
+                        'dong_go' => false,
+                        'kiem_dem' => false,
+                    ],
                 ]);
 
                 $item->cart_id = $cart->id;

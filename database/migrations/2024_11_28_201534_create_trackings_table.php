@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->morphs('trackingable');
 
-            $table->json('timeline')->nullable();
+            $table->longText('timeline')->nullable();
 
             $table->timestamps();
 		});
