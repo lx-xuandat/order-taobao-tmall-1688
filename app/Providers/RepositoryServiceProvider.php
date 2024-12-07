@@ -32,6 +32,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(\App\Repositories\UserRepository::class, \App\Repositories\UserRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\VoucherRepository::class, \App\Repositories\VoucherRepositoryEloquent::class);
         $this->app->bind(\App\Repositories\ECommerceLinkRepository::class, \App\Repositories\ECommerceLinkRepositoryEloquent::class);
+        $this->app->bind(\App\Repositories\CartLinkRepository::class, \App\Repositories\CartLinkRepositoryEloquent::class);
         //:end-bindings:
     }
 }

@@ -6,6 +6,8 @@ use App\Enums\OrderStatus;
 use App\Exceptions\AddToCartException;
 use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\CartLinkUpdateRequest;
+use App\Http\Requests\ItemQuantityUpdateRequest;
+use App\Repositories\CartLinkRepository;
 use App\Repositories\CartRepository;
 
 /**
@@ -20,14 +22,17 @@ class CartsController extends Controller
      */
     protected $repository;
 
+    protected $cartLinkRepository;
+
     /**
      * CartsController constructor.
      *
      * @param CartRepository $repository
      */
-    public function __construct(CartRepository $repository)
+    public function __construct(CartRepository $repository, CartLinkRepository $cartLinkRepository)
     {
         $this->repository = $repository;
+        $this->cartLinkRepository = $cartLinkRepository;
     }
 
     public function index()
@@ -118,12 +123,20 @@ class CartsController extends Controller
     public function updateCartLink(CartLinkUpdateRequest $request)
     {
         try {
+            $service = $request->except(['link_id']);
 
-            $service = $this->repository->update($request->all(), $request->input('link.link_id'));
+            $this->cartLinkRepository
+                ->where('id', $request->link_id)
+                ->where('customer_id', auth()->id)
+                ->update([
+                    'services_json' => $service,
+                ]);
+
+            $data = $this->cartLinkRepository->find($request->link_id);
 
             $response = [
                 'message' => 'Services updated.',
-                'data'    => $service->toArray(),
+                'data'    => $data->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -146,4 +159,32 @@ class CartsController extends Controller
         }
     }
 
+    public function updateItemQuantity(ItemQuantityUpdateRequest $request)
+    {
+        try {
+            $item = $this->repository->updateItemQuantity(auth('web')->id, $request->input('item'));
+
+            $response = [
+                'message' => 'Item updated.',
+                'data'    => $item->toArray(),
+            ];
+
+            if ($request->wantsJson()) {
+                return response()->json($response);
+            }
+
+            return redirect()->back()->with('message', $response['message']);
+        } catch (\Exception $e) {
+
+            if ($request->wantsJson()) {
+
+                return response()->json([
+                    'error'   => true,
+                    'message' => $e->getMessage()
+                ]);
+            }
+
+            return redirect()->back()->withErrors($e->getMessage())->withInput();
+        }
+    }
 }

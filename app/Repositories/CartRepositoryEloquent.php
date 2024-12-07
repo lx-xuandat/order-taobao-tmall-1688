@@ -128,7 +128,7 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
                 ->select([
                     'items.*',
                     'items.id as item_id',
-                    'e_commerce_links.*',
+                    'e_commerce_links.id as ec_link_id',
                     'e_commerce_links.thumbnail as ec_link_thumbnail',
                     \DB::raw('items.quantity * items.price AS total'),
                 ])
@@ -136,6 +136,7 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
                 // ->with('comments')
                 ->join('e_commerce_links', 'e_commerce_links.id', '=', 'items.ec_link_id')
                 ->where('items.status', OrderStatus::ItemInCart->value)
+                ->where('items.customer_id', $customerId)
             ;
         };
 
@@ -147,15 +148,24 @@ class CartRepositoryEloquent extends BaseRepository implements CartRepository
                     'cart_links.*',
                     'cart_links.id as cart_link_id',
                 ])
-                ->with(['items' => $itemsInCart])
-                ->join('e_commerce_links', 'e_commerce_links.id', '=', 'cart_links.ec_link_id');
+                    ->with(['items' => $itemsInCart])
+                    ->join('e_commerce_links', 'e_commerce_links.id', '=', 'cart_links.ec_link_id');
             }])
             // ->with(['items' => $itemsInCart])
-            // ->whereHas('items', $itemsInCart)
+            ->whereHas('items', $itemsInCart)
             ->findWhere([
                 'status' => OrderStatus::ItemInCart->value
             ]);
-            // dd($carts);
+        // dd($carts);
         return $carts;
+    }
+
+    public function updateItemQuantity($customerId, $input)
+    {
+        return $this->item
+            ->where('customer_id', $customerId)
+            ->update([
+                'quantity' => $input['item_quantity'],
+            ], $input['item_id']);
     }
 }

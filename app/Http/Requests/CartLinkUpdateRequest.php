@@ -22,7 +22,10 @@ class CartLinkUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'link_id' => 'numeric',
+            'dong_go' => 'boolean',
+            'kiem_dem' => 'boolean',
+            'note' => 'string',
         ];
     }
 }

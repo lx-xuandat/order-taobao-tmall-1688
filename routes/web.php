@@ -35,6 +35,7 @@ require __DIR__.'/auth.php';
 Route::group(['as' => 'fe.', 'middleware' => 'auth'], function () {
     Route::get('carts', [CartsController::class, 'index'])->name('cart.index');
     Route::put('e-commerce/cart-links', [CartsController::class, 'updateCartLink'])->name('cart.update-cart-link');
+    Route::put('e-commerce/cart-items/update-quantity', [CartsController::class, 'updateItemQuantity'])->name('update-item-quantity');
 });
 
 

@@ -11,10 +11,10 @@
             <div class="header-element">
                 <div class="horizontal-logo">
                     <a href="index.html" class="header-logo">
-                        <img src="/storage/assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
-                        <img src="/storage/assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
-                        <img src="/storage/assets/images/brand-logos/desktop-dark.png" alt="logo" class="desktop-dark">
-                        <img src="/storage/assets/images/brand-logos/toggle-dark.png" alt="logo" class="toggle-dark">
+                        <img src="/assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
+                        <img src="/assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
+                        <img src="/assets/images/brand-logos/desktop-dark.png" alt="logo" class="desktop-dark">
+                        <img src="/assets/images/brand-logos/toggle-dark.png" alt="logo" class="toggle-dark">
                     </a>
                 </div>
             </div>
@@ -124,7 +124,7 @@
                             href="javascript:void(0);">
                             <div class="d-flex align-items-center">
                                 <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                    <img src="/storage/assets/images/flags/us_flag.jpg" alt="img">
+                                    <img src="/assets/images/flags/us_flag.jpg" alt="img">
                                 </span>
                                 English
                             </div>
@@ -136,7 +136,7 @@
                             href="javascript:void(0);">
                             <div class="d-flex align-items-center">
                                 <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                    <img src="/storage/assets/images/flags/spain_flag.jpg" alt="img">
+                                    <img src="/assets/images/flags/spain_flag.jpg" alt="img">
                                 </span>
                                 español
                             </div>
@@ -148,7 +148,7 @@
                             href="javascript:void(0);">
                             <div class="d-flex align-items-center">
                                 <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                    <img src="/storage/assets/images/flags/french_flag.jpg" alt="img">
+                                    <img src="/assets/images/flags/french_flag.jpg" alt="img">
                                 </span>
                                 français
                             </div>
@@ -160,7 +160,7 @@
                             href="javascript:void(0);">
                             <div class="d-flex align-items-center">
                                 <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                    <img src="/storage/assets/images/flags/uae_flag.jpg" alt="img">
+                                    <img src="/assets/images/flags/uae_flag.jpg" alt="img">
                                 </span>
                                 عربي
                             </div>
@@ -172,7 +172,7 @@
                             href="javascript:void(0);">
                             <div class="d-flex align-items-center">
                                 <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                    <img src="/storage/assets/images/flags/germany_flag.jpg" alt="img">
+                                    <img src="/assets/images/flags/germany_flag.jpg" alt="img">
                                 </span>
                                 DE
                             </div>
@@ -184,7 +184,7 @@
                             href="javascript:void(0);">
                             <div class="d-flex align-items-center">
                                 <span class="avatar avatar-rounded avatar-xs lh-1 me-2">
-                                    <img src="/storage/assets/images/flags/china_flag.jpg" alt="img">
+                                    <img src="/assets/images/flags/china_flag.jpg" alt="img">
                                 </span>
                                 中国人
                             </div>
@@ -269,7 +269,7 @@
                                 <div class="d-flex align-items-center  gap-3 mb-2">
                                     <div class="lh-1">
                                         <span class="avatar avatar-xl p-1 bg-primary-transparent">
-                                            <img src="/storage/assets/images/ecommerce/png/1.png" alt="img">
+                                            <img src="/assets/images/ecommerce/png/1.png" alt="img">
                                         </span>
                                     </div>
                                     <div class="flex-fill">
@@ -314,7 +314,7 @@
                                 <div class="d-flex align-items-center  gap-3 mb-2">
                                     <div class="lh-1">
                                         <span class="avatar avatar-xl p-1 bg-secondary-transparent">
-                                            <img src="/storage/assets/images/ecommerce/png/14.png" alt="img">
+                                            <img src="/assets/images/ecommerce/png/14.png" alt="img">
                                         </span>
                                     </div>
                                     <div class="flex-fill">
@@ -357,7 +357,7 @@
                                 <div class="d-flex align-items-center  gap-3 mb-2">
                                     <div class="lh-1">
                                         <span class="avatar avatar-xl p-1 bg-success-transparent">
-                                            <img src="/storage/assets/images/ecommerce/png/33.png" alt="img">
+                                            <img src="/assets/images/ecommerce/png/33.png" alt="img">
                                         </span>
                                     </div>
                                     <div class="flex-fill">
@@ -400,7 +400,7 @@
                                 <div class="d-flex align-items-center  gap-3 mb-2">
                                     <div class="lh-1">
                                         <span class="avatar avatar-xl p-1 bg-warning-transparent">
-                                            <img src="/storage/assets/images/ecommerce/png/34.png" alt="img">
+                                            <img src="/assets/images/ecommerce/png/34.png" alt="img">
                                         </span>
                                     </div>
                                     <div class="flex-fill">
@@ -443,7 +443,7 @@
                                 <div class="d-flex align-items-center  gap-3 mb-2">
                                     <div class="lh-1">
                                         <span class="avatar avatar-xl p-1 bg-pink-transparent">
-                                            <img src="/storage/assets/images/ecommerce/png/31.png" alt="img">
+                                            <img src="/assets/images/ecommerce/png/31.png" alt="img">
                                         </span>
                                     </div>
                                     <div class="flex-fill">
@@ -559,7 +559,7 @@
                                     <div class="d-flex align-items-start">
                                         <div class="pe-2 lh-1"> <span
                                                 class="avatar avatar-md avatar-rounded svg-white">
-                                                <img src="/storage/assets/images/faces/2.jpg" alt="img"> </span>
+                                                <img src="/assets/images/faces/2.jpg" alt="img"> </span>
                                         </div>
                                         <div class="flex-grow-1 d-flex align-items-start justify-content-between">
                                             <div>
@@ -601,7 +601,7 @@
                                     <div class="d-flex align-items-start">
                                         <div class="pe-2 lh-1"> <span
                                                 class="avatar avatar-md avatar-rounded svg-white">
-                                                <img src="/storage/assets/images/faces/6.jpg" alt="img"> </span>
+                                                <img src="/assets/images/faces/6.jpg" alt="img"> </span>
                                         </div>
                                         <div class="flex-grow-1 d-flex align-items-start justify-content-between">
                                             <div>
@@ -641,7 +641,7 @@
                                     <div class="d-flex align-items-start">
                                         <div class="pe-2 lh-1"> <span
                                                 class="avatar avatar-md avatar-rounded svg-white">
-                                                <img src="/storage/assets/images/faces/14.jpg" alt="img"> </span>
+                                                <img src="/assets/images/faces/14.jpg" alt="img"> </span>
                                         </div>
                                         <div class="flex-grow-1 d-flex align-items-start justify-content-between">
                                             <div>
@@ -939,7 +939,7 @@
                     data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                     <div class="d-flex align-items-center">
                         <div class="me-xl-2 me-0">
-                            <img src="/storage/assets/images/faces/2.jpg" alt="img" class="avatar avatar-sm avatar-rounded">
+                            <img src="/assets/images/faces/2.jpg" alt="img" class="avatar avatar-sm avatar-rounded">
                         </div>
                         <div class="d-xl-block d-none lh-1">
                             <span class="fw-medium lh-1">Mr. Jack</span>

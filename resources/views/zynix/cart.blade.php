@@ -1,6 +1,6 @@
 @include('zynix.partials.mainhead')
 
-<link rel="stylesheet" href="/storage/assets/libs/sweetalert2/sweetalert2.min.css">
+<link rel="stylesheet" href="/assets/libs/sweetalert2/sweetalert2.min.css">
 
 </head>
 
@@ -87,7 +87,7 @@
 
                                                 @foreach ($link->items as $item)
                                                     @php($sku = array_map('trim', explode('vtexpress=>', $item->sku)))
-                                                    <tr class="row-item-{{ $item->cart_id }}">
+                                                    <tr item="{{ $item->item_id }}">
                                                         <td class="ps-4">
                                                             <input class="form-check-input vtx-item vtx-link-{{ $link->id }} vtx-cart-{{$cart->id}}"
                                                                 vtx-cart="{{ $cart->id }}" vtx-link="{{ $link->id }}" vtx-item="{{ $item->item_id }}"
@@ -443,18 +443,14 @@
 
     </div>
 
-    @include('zynix.partials.commonjs')
-
     @include('zynix.partials.custom_switcherjs')
 
     <!-- Sweetalerts JS -->
-    <script src="/storage/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <script src="/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
-    <!-- Custom JS -->
-    <script src="/storage/assets/js/custom.js"></script>
+    @include('zynix.partials.commonjs')
 
-    <!-- Internal Cart JS -->
-    <script src="/storage/assets/js/cart.js"></script>
+    @vite('resources/admin/js/cart.js')
 </body>
 
 </html>

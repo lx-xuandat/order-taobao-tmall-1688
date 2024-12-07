@@ -10,29 +10,30 @@
 <!-- Scroll To Top -->
 
 <!-- Popper JS -->
-<script src="/storage/assets/libs/@popperjs/core/umd/popper.min.js"></script>
+<script src="/assets/libs/@popperjs/core/umd/popper.min.js"></script>
 
 <!-- Bootstrap JS -->
-<script src="/storage/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Defaultmenu JS -->
-<script src="/storage/assets/js/defaultmenu.min.js"></script>
+
 
 <!-- Node Waves JS-->
-<script src="/storage/assets/libs/node-waves/waves.min.js"></script>
+<script src="/assets/libs/node-waves/waves.min.js"></script>
 
 <!-- Sticky JS -->
-<script src="/storage/assets/js/sticky.js"></script>
+
 
 <!-- Simplebar JS -->
-<script src="/storage/assets/libs/simplebar/simplebar.min.js"></script>
-<script src="/storage/assets/js/simplebar.js"></script>
+<script src="/assets/libs/simplebar/simplebar.min.js"></script>
 
 <!-- Auto Complete JS -->
-<script src="/storage/assets/libs/@tarekraafat/autocomplete.js/autoComplete.min.js"></script>
+<script src="/assets/libs/@tarekraafat/autocomplete.js/autoComplete.min.js"></script>
 
 <!-- Color Picker JS -->
-<script src="/storage/assets/libs/@simonwep/pickr/pickr.es5.min.js"></script>
+<script src="/assets/libs/@simonwep/pickr/pickr.es5.min.js"></script>
 
 <!-- Date & Time Picker JS -->
-<script src="/storage/assets/libs/flatpickr/flatpickr.min.js"></script>
+<script src="/assets/libs/flatpickr/flatpickr.min.js"></script>
+
+@vite('resources/js/app.js')
